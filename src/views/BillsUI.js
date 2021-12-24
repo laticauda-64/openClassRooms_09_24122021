@@ -1,7 +1,7 @@
 import VerticalLayout from './VerticalLayout.js'
 import ErrorPage from "./ErrorPage.js"
 import LoadingPage from "./LoadingPage.js"
-
+import {formatDate} from "../app/format.js"
 import Actions from './Actions.js'
 
 const row = (bill) => {
@@ -24,6 +24,15 @@ const rows = (data) => {
 }
 
 export default ({ data: bills, loading, error }) => {
+
+  if(bills){
+
+    // Sort bills form Earliest to Latest
+    const sortFromEarliestToLatest = (a, b) => new Date(b.date) - new Date(a.date);
+
+    bills.sort(sortFromEarliestToLatest);
+    console.log(bills);
+  }
   
   const modal = () => (`
     <div class="modal fade" id="modaleFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
