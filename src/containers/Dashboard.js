@@ -70,6 +70,13 @@ export default class {
     this.document = document
     this.onNavigate = onNavigate
     this.store = store
+
+    this.tabsState = {
+      panel1: false,
+      panel2: false,
+      panel3: false,
+    };
+
     $('#arrow-icon1').click((e) => this.handleShowTickets(e, bills, 1))
     $('#arrow-icon2').click((e) => this.handleShowTickets(e, bills, 2))
     $('#arrow-icon3').click((e) => this.handleShowTickets(e, bills, 3))
@@ -130,21 +137,24 @@ export default class {
   }
 
   handleShowTickets(e, bills, index) {
-    if (this.counter === undefined || this.index !== index) this.counter = 0
     if (this.index === undefined || this.index !== index) this.index = index
-    if (this.counter % 2 === 0) {
+    if (!this.tabsState[`panel${index}`]) {
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(0deg)'})
       $(`#status-bills-container${this.index}`)
         .html(cards(filteredBills(bills, getStatus(this.index))))
-      this.counter ++
-    } else {
+
+        this.tabsState[`panel${index}`] = true;
+
+      } else if (this.tabsState[`panel${index}`]){
       $(`#arrow-icon${this.index}`).css({ transform: 'rotate(90deg)'})
       $(`#status-bills-container${this.index}`)
         .html("")
-      this.counter ++
+      
+      this.tabsState[`panel${index}`] = false;
     }
 
     bills.forEach(bill => {
+      $(`#open-bill${bill.id}`).off('click')
       $(`#open-bill${bill.id}`).click((e) => this.handleEditTicket(e, bill, bills))
     })
 
