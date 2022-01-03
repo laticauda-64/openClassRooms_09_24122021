@@ -28,11 +28,12 @@ export default class {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   getBills = () => {
     if (this.store) {
       return this.store
-      .bills()
-      .list()
+        .bills()
+        .list()
       .then(snapshot => {
         const bills = snapshot
           .map(doc => {
@@ -50,12 +51,12 @@ export default class {
                 ...doc,
                 date: doc.date,
                 status: formatStatus(doc.status)
-              }
             }
+    }
           })
           console.log('length', bills.length)
         return bills
       })
-    }
+}
   }
 }
