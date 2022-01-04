@@ -21,7 +21,7 @@ export default class NewBill {
     const file = inputField.files[0];
 
     // Check if input file is an image
-    if ( /\.(jpe?g|png|gif)$/i.test(file.name) === false ) { 
+    if ( /\.(jpe?g|png|gif)$/i.test(file?.name) === false ) { 
       alert("Merci de choisir un format d'image valide : .jpg, .jpeg, .png, .gif...");
       inputField.value = "";
       return;
@@ -34,7 +34,8 @@ export default class NewBill {
     formData.append('file', file)
     formData.append('email', email)
 
-    this.store
+    /* istanbul ignore next */
+    if(this.store) this.store
       .bills()
       .create({
         data: formData,
@@ -71,6 +72,7 @@ export default class NewBill {
   }
 
   // not need to cover this function by tests
+  /* istanbul ignore next */
   updateBill = (bill) => {
     if (this.store) {
       this.store
